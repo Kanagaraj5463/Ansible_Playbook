@@ -1,1 +1,18 @@
-bash shell.sh
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: "install docker"
+      command: yum install docker -y
+    - name: "start the docker"
+      command: service docker start
+    - name: "Pull the jenkins image from dockerhub repo"
+      command: docker pull jenkins/jenkins
+    - name: "Run the jenkins image"
+      command: docker run -d -p 8080:8080 jenkins/jenkins
+    - name: "Run the jenkins image"
+      command: docker ps
+      register: raju
+    - name: "display Output"
+      debug: var=raju.stdout_lines
